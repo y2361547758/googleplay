@@ -5,16 +5,6 @@ import (
    "github.com/segmentio/encoding/proto"
 )
 
-/*
-number:1 type:2 value:
-   number:2 type:2 value:
-      number:4 type:2 value:
-         number:13 type:2 value:
-            number:1 type:2 value:
-               number:1 type:2 value:Google LLC
-               number:3 type:0 value:1524094400
-               number:4 type:2 value:16.43.34
-*/
 type details struct {
    N1 struct {
       N2 struct {
