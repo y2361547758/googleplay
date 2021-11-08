@@ -7,6 +7,7 @@ import (
    "net/http"
    "net/url"
    "strconv"
+   "strings"
    "time"
 )
 
@@ -110,6 +111,29 @@ func (a Auth) Details(dev *Device, app string) (*Details, error) {
    return &wrap.Payload.DetailsResponse, nil
 }
 
+func (a Auth) Purchase(dev *Device, app string) error {
+   buf := url.Values{
+      "doc": {app},
+   }.Encode()
+   req, err := http.NewRequest(
+      "POST", origin + "/fdfe/purchase", strings.NewReader(buf),
+   )
+   if err != nil {
+      return err
+   }
+   req.Header = http.Header{
+      "Authorization": {"Bearer " + a.Get("Auth")},
+      "Content-Type": {"application/x-www-form-urlencoded"},
+      "User-Agent": {agent},
+      "X-DFE-Device-ID": {dev.String()},
+   }
+   res, err := roundTrip(req)
+   if err != nil {
+      return err
+   }
+   return res.Body.Close()
+}
+
 // This seems to return `StatusOK`, even with invalid requests, and the response
 // body only contains a token, that doesnt seem to indicate success or failure.
 // Only way I know to check, it to try the `deviceID` with a `details` request
@@ -143,6 +167,7 @@ func (a Auth) Upload(dev *Device, con Config) error {
 }
 
 type Delivery struct {
+   Status int32 `json:"1"`
    AppDeliveryData struct {
       DownloadURL string `json:"3"`
    } `json:"2"`
@@ -153,9 +178,9 @@ type Details struct {
       DocumentDetails struct {
          AppDetails struct {
             DeveloperName string `json:"1"`
-            VersionCode int `json:"3"`
+            VersionCode int32 `json:"3"`
             Version string `json:"4"`
-            InstallationSize int `json:"9"`
+            InstallationSize int64 `json:"9"`
             Permission []string `json:"10"`
          } `json:"1"`
       } `json:"13"`
