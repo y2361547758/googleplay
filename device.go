@@ -15,8 +15,8 @@ var DefaultCheckin = Checkin{Version: 3}
 
 var DefaultConfig = Config{
    DeviceConfiguration: DeviceConfiguration{
-      // com.google.android.youtube
-      GlEsVersion: 0x0002_0000,
+      // com.axis.drawingdesk.v3
+      GlEsVersion: 0x0003_0001,
       SystemAvailableFeature: []string{
          // com.pinterest
          "android.hardware.camera",
@@ -34,8 +34,8 @@ var DefaultConfig = Config{
          "android.hardware.wifi",
       },
       NativePlatform: []string{
-         // com.google.android.youtube
-         "x86",
+         // com.axis.drawingdesk.v3
+         "arm64-v8a",
       },
       GlExtension: []string{
          // com.instagram.android
