@@ -97,5 +97,6 @@ type response struct {
 }
 
 func (r response) Error() string {
-   return strconv.Itoa(r.StatusCode) + " " + r.Status
+   // Status includes both
+   return r.Status
 }

@@ -65,7 +65,7 @@ type Token struct {
 
 // Request refresh token.
 func NewToken(email, password string) (*Token, error) {
-   hello, err := crypto.ParseJA3(crypto.AndroidJA3)
+   hello, err := crypto.ParseJA3(crypto.AndroidAPI26)
    if err != nil {
       return nil, err
    }
