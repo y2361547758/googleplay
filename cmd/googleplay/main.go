@@ -71,6 +71,6 @@ func main() {
          fmt.Printf("%+v\n", res)
       }
    } else {
-      flag.PrintDefaults()
+      flag.Usage()
    }
 }
