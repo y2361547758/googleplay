@@ -5,16 +5,48 @@ import (
    "github.com/89z/format"
    "github.com/89z/format/protobuf"
    "net/http"
+   "strconv"
 )
 
-const (
-   // com.kakaogames.twodin
-   Arm64 String = "arm64-v8a"
-   // com.miui.weather2
-   Armeabi String = "armeabi-v7a"
+type NativePlatform map[int64]string
+
+var Platforms = NativePlatform{
    // com.google.android.youtube
-   X86 String = "x86"
-)
+   0: "x86",
+   // com.miui.weather2
+   1: "armeabi-v7a",
+   // com.kakaogames.twodin
+   2: "arm64-v8a",
+}
+
+func (n NativePlatform) String() string {
+   first := true
+   var buf []byte
+   for key, val := range n {
+      if first {
+         first = false
+      } else {
+         buf = append(buf, '\n')
+      }
+      buf = strconv.AppendInt(buf, key, 10)
+      buf = append(buf, ' ')
+      buf = append(buf, val...)
+   }
+   return string(buf)
+}
+
+type Device struct {
+   AndroidID Fixed64
+   TimeMsec Varint
+}
+
+func OpenDevice(elem ...string) (*Device, error) {
+   return format.Open[Device](elem...)
+}
+
+func (d Device) Create(elem ...string) error {
+   return format.Create(d, elem...)
+}
 
 // These can use default values, but they must all be included
 type Config struct {
@@ -75,7 +107,7 @@ var Phone = Config{
 }
 
 // A Sleep is needed after this.
-func (c Config) Checkin(platform String) (*Device, error) {
+func (c Config) Checkin(platform string) (*Device, error) {
    checkin := Message{
       4: Message{ // checkin
          1: Message{ // build
@@ -92,7 +124,7 @@ func (c Config) Checkin(platform String) (*Device, error) {
          6: c.HasFiveWayNavigation, // hasFiveWayNavigation
          7: c.ScreenDensity, // screenDensity
          8: c.GlEsVersion, // glEsVersion
-         11: platform, // nativePlatform
+         11: String(platform), // nativePlatform
          15: c.GlExtension, // glExtension
       },
    }
@@ -133,17 +165,4 @@ func (c Config) Checkin(platform String) (*Device, error) {
       return nil, err
    }
    return &dev, nil
-}
-
-type Device struct {
-   AndroidID Fixed64
-   TimeMsec Varint
-}
-
-func OpenDevice(elem ...string) (*Device, error) {
-   return format.Open[Device](elem...)
-}
-
-func (d Device) Create(elem ...string) error {
-   return format.Create(d, elem...)
 }

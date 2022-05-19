@@ -6,15 +6,6 @@ import (
 )
 
 var testApps = map[string][]app{
-   "googleplay/arm64.json": {
-      {"May 9, 2022", "com.kakaogames.twodin"},
-   },
-   "googleplay/armeabi.json": {
-      {"Apr 8, 2022", "com.axis.drawingdesk.v3"},
-      {"Mar 14, 2022", "com.xiaomi.smarthome"},
-      {"Mar 24, 2022", "com.miui.weather2"},
-      {"May 12, 2022", "com.madhead.tos.zh"},
-   },
    "googleplay/x86.json": {
       {"Mar 1, 2022", "kr.sira.metal"},
       {"Apr 11, 2022", "com.pinterest"},
@@ -26,6 +17,15 @@ var testApps = map[string][]app{
       {"Mar 17, 2022", "com.google.android.apps.walletnfcrel"},
       {"Apr 1, 2022", "com.clearchannel.iheartradio.controller"},
       {"Jun 1, 2021", "com.valvesoftware.android.steam.community"},
+   },
+   "googleplay/armeabi-v7a.json": {
+      {"Apr 8, 2022", "com.axis.drawingdesk.v3"},
+      {"Mar 14, 2022", "com.xiaomi.smarthome"},
+      {"Mar 24, 2022", "com.miui.weather2"},
+      {"May 12, 2022", "com.madhead.tos.zh"},
+   },
+   "googleplay/arm64-v8a.json": {
+      {"May 9, 2022", "com.kakaogames.twodin"},
    },
 }
 
