@@ -88,11 +88,11 @@ func (h Header) Delivery(app string, ver uint64) (*Delivery, error) {
 }
 
 type AppFileMetadata struct {
-   FileType Varint
-   DownloadURL String
+   FileType uint64
+   DownloadURL string
 }
 
-func (d Delivery) Additional(typ Varint) string {
+func (d Delivery) Additional(typ uint64) string {
    var buf []byte
    if typ == 0 {
       buf = append(buf, "main"...)
@@ -108,7 +108,7 @@ func (d Delivery) Additional(typ Varint) string {
 }
 
 type Delivery struct {
-   DownloadURL String
+   DownloadURL string
    PackageName string
    SplitDeliveryData []SplitDeliveryData
    VersionCode uint64
@@ -116,11 +116,11 @@ type Delivery struct {
 }
 
 type SplitDeliveryData struct {
-   ID String
-   DownloadURL String
+   ID string
+   DownloadURL string
 }
 
-func (d Delivery) Split(id String) string {
+func (d Delivery) Split(id string) string {
    var buf []byte
    buf = append(buf, d.PackageName...)
    buf = append(buf, '-')
